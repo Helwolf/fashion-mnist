@@ -32,11 +32,9 @@ worker_init()
 
 device = torch.device("cuda:{}".format(args.gpu_id) if torch.cuda.is_available() else "cpu")
 
-# train_x, val_x, train_y, val_y = get_train_data(test_size=0.1, one_hot=False)
-train_data = MNIST('.', download=True, transform=transforms.ToTensor())
-val_data = MNIST('.', train=False, transform=transforms.ToTensor())
-# train_data = FashionMnist(data_type='train', data=(train_x, train_y))
-# val_data = FashionMnist(data_type='val', data=(val_x, val_y))
+train_x, val_x, train_y, val_y = get_train_data(test_size=0.1, one_hot=False)
+train_data = FashionMnist(data_type='train', data=(train_x, train_y))
+val_data = FashionMnist(data_type='val', data=(val_x, val_y))
 datasets = {'train': train_data, 'val': val_data}
 dataloaders = {x: DataLoader(datasets[x], batch_size=args.batch_size, num_workers=4)
                for x in ['train', 'val']}
